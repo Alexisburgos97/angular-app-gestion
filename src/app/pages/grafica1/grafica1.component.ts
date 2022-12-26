@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ChartData} from "chart.js";
 
 @Component({
   selector: 'app-grafica1',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./grafica1.component.css']
 })
 export class Grafica1Component {
+
+  public labels1: string[] = [ 'Pan', 'Gaseosa', 'Tacos' ];
+
+  public data1: ChartData<'doughnut'> = {
+    labels: this.labels1,
+    datasets: [
+      { data: [ 10, 50, 90 ] },
+    ]
+  };
 
 }
