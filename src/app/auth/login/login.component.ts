@@ -30,8 +30,6 @@ export class LoginComponent implements AfterViewInit{
 
   login(){
 
-    // console.log(this.loginForm.value);
-
     this.usuarioService.login(this.loginForm.value)
       .subscribe( resp => {
         // console.log(resp);
