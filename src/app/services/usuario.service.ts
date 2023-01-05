@@ -7,6 +7,7 @@ import {LoginForm} from "../interfaces/login-form.interface";
 import {AbstractControl, ValidationErrors, ɵElement, ɵFormGroupValue, ɵTypedOrUntyped} from "@angular/forms";
 import {catchError, map, Observable, of, tap} from "rxjs";
 import {Router} from "@angular/router";
+import {Usuario} from "../models/usuario.model";
 
 const base_url = environment.base_url;
 
@@ -14,6 +15,8 @@ const base_url = environment.base_url;
   providedIn: 'root'
 })
 export class UsuarioService {
+
+  public usuario !: Usuario;
 
   constructor( private http: HttpClient, private router: Router ) {}
 
@@ -25,6 +28,21 @@ export class UsuarioService {
           localStorage.setItem('token', resp.token)
         })
       );
+  }
+
+  actualizarPerfil( data: {email: string, nombre: string, role: string} ) {
+
+    data = {
+      ...data,
+      role : this.usuario.role!
+    };
+
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+
   }
 
   login(formData: ɵTypedOrUntyped<{ [K in keyof { remember: boolean[]; password: (string | ((control: AbstractControl) => (ValidationErrors | null))[])[]; email: (string | ((control: AbstractControl) => (ValidationErrors | null))[])[] }]: ɵElement<{ remember: boolean[]; password: (string | ((control: AbstractControl) => (ValidationErrors | null))[])[]; email: (string | ((control: AbstractControl) => (ValidationErrors | null))[])[] }[K], null> }, ɵFormGroupValue<{ [K in keyof { remember: boolean[]; password: (string | ((control: AbstractControl) => (ValidationErrors | null))[])[]; email: (string | ((control: AbstractControl) => (ValidationErrors | null))[])[] }]: ɵElement<{ remember: boolean[]; password: (string | ((control: AbstractControl) => (ValidationErrors | null))[])[]; email: (string | ((control: AbstractControl) => (ValidationErrors | null))[])[] }[K], null> }>, any>){
@@ -51,27 +69,39 @@ export class UsuarioService {
 
   validarToken(): Observable<boolean>{
 
-    const token = localStorage.getItem('token') || '';
+    // const token = localStorage.getItem('token') || '';
 
     return this.http.get(`${base_url}/login/renew`, {
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(
-      tap( (resp: any) => {
-        localStorage.setItem('token', resp.token)
+      map( (resp: any) => {
+
+        const {email, google, nombre, role, img = '', uid} = resp.usuario;
+
+        this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
+
+        localStorage.setItem('token', resp.token);
+
+        return true;
       }),
-      map( resp => true),
       catchError( error => of(false) )
     );
 
   }
 
   logout(){
-
     localStorage.removeItem('token');
     this.router.navigateByUrl('/login');
+  }
 
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get uid(): string {
+    return this.usuario.uid || '';
   }
 
 }
