@@ -8,6 +8,7 @@ import {AbstractControl, ValidationErrors, ɵElement, ɵFormGroupValue, ɵTypedO
 import {catchError, map, Observable, of, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {Usuario} from "../models/usuario.model";
+import {CargarUsuario} from "../interfaces/cargar-usuarios.interface";
 
 const base_url = environment.base_url;
 
@@ -94,6 +95,48 @@ export class UsuarioService {
   logout(){
     localStorage.removeItem('token');
     this.router.navigateByUrl('/login');
+  }
+
+  cargarUsuarios(desde: number = 0){
+
+    return this.http.get<CargarUsuario>(`${base_url}/usuarios?desde=${desde}`, {
+      headers: {
+        'x-token': this.token
+      }
+    }).pipe(
+      map( resp => {
+
+        const usuarios = resp.usuarios.map(
+          user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+        );
+
+        return {
+          total: resp.total,
+          usuarios
+        };
+      })
+    );
+
+  }
+
+  eliminarUsuario( usuario: Usuario ){
+
+    return this.http.delete(`${base_url}/usuarios/${usuario.uid}`, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+
+  }
+
+  guardarUsuario( usuario: Usuario ) {
+
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+
   }
 
   get token(): string {
