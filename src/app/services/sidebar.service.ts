@@ -10,20 +10,20 @@ export class SidebarService {
       titulo: 'Dashboard',
       icono: 'mdi mdi-gauge',
       submenu: [
-        { titulo: 'Dashboard', url: '/dashboard' },
-        { titulo: 'ProgressBar', url: '/progress' },
-        { titulo: 'Promesas', url: '/promesas' },
-        { titulo: 'Gráfica', url: '/grafica1' },
-        { titulo: 'Rxjs', url: '/rxjs' },
+        { titulo: 'Dashboard', url: '/' },
+        { titulo: 'ProgressBar', url: '/dashboard/progress' },
+        { titulo: 'Promesas', url: '/dashboard/promesas' },
+        { titulo: 'Gráfica', url: '/dashboard/grafica1' },
+        { titulo: 'Rxjs', url: '/dashboard/rxjs' },
       ]
     },
     {
       titulo: 'Mantenimientos',
       icono: 'mdi mdi-folder-lock-open',
       submenu: [
-        { titulo: 'Usuarios', url: '/usuarios' },
-        { titulo: 'Hospitales', url: '/hospitales' },
-        { titulo: 'Médicos', url: '/medicos' },
+        { titulo: 'Usuarios', url: '/dashboard/usuarios' },
+        { titulo: 'Hospitales', url: '/dashboard/hospitales' },
+        { titulo: 'Médicos', url: '/dashboard/medicos' },
       ]
     }
   ]

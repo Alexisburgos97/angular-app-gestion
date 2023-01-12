@@ -1,18 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {SettingsService} from "../services/settings.service";
+import { Component, OnInit } from '@angular/core';
 
-// @ts-ignore
-declare function customInitFunctions();
+import { SettingsService } from '../services/settings.service';
+
+declare function customInitFunctions(): any;
 
 @Component({
   selector: 'app-pages',
   templateUrl: './pages.component.html',
-  styleUrls: ['./pages.component.css']
+  styles: [
+  ]
 })
-export class PagesComponent implements OnInit{
+export class PagesComponent implements OnInit {
 
-  constructor( private settingsService: SettingsService ) {
-  }
+  constructor( private settingsService: SettingsService ) { }
 
   ngOnInit(): void {
     customInitFunctions();

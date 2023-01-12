@@ -5,7 +5,7 @@ import {FileUploadService} from "../../services/file-upload.service";
 
 import {Usuario} from "../../models/usuario.model";
 
-import swal from "sweetalert2";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-perfil',
@@ -40,9 +40,9 @@ export class PerfilComponent implements OnInit{
         this.usuario.nombre = nombre;
         this.usuario.email = email;
 
-        swal.fire('Actualizado', resp.msg ,'success');
+        Swal.fire('Actualizado', resp.msg ,'success');
       }, error => {
-        swal.fire('Error', error.error.msg ,'error');
+        Swal.fire('Error', error.error.msg ,'error');
       });
   }
 
@@ -68,9 +68,9 @@ export class PerfilComponent implements OnInit{
         console.log(img)
         this.usuario.img = img;
 
-        swal.fire('Guardado', 'Imagen de usuario actualizado' ,'success');
+        Swal.fire('Guardado', 'Imagen de usuario actualizado' ,'success');
       }, error => {
-        swal.fire('Error', 'No se pudo subir la imagen' ,'error');
+        Swal.fire('Error', 'No se pudo subir la imagen' ,'error');
       });
   }
 

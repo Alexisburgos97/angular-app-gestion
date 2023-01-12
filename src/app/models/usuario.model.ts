@@ -20,7 +20,7 @@ export class Usuario{
       return this.img;
     }
 
-    if( this.img ){
+    if( this.img?.length !== 0 ){
       return `${base_url}/upload/usuarios/${this.img}`;
     }
 
